@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StillMind AI — Learn Better. Remember Longer.</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="logo" href="#home" aria-label="StillMind AI home">
+    <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="2"/><path d="M6 21l6-8 5 6 3-4 6 6z" fill="currentColor"/></svg>
+    StillMind AI
+  </a>
+  <nav class="pill-nav" aria-label="Main">
+    <a href="#how">How It Works</a><a href="#features">Features</a><a href="#workspace">Study Workspace</a><a href="#history">History</a>
+  </nav>
+  <button id="themeToggle" class="pill pill-light" type="button" aria-label="Toggle dark or light mode">Theme</button>
+</header>
+
+<main>
+<section id="home" class="hero">
+  <div class="frame"><div class="scene" aria-hidden="true"><div class="mtn m1"></div><div class="mtn m2"></div><div class="field"></div></div>
+    <div class="hero-copy">
+      <span class="badge">Built for students</span>
+      <h1>Focus on Learning. Leave the Busywork to AI.</h1>
+      <p>Turn your notes into clear summaries, interactive quizzes and smart flashcards. Spend less time organizing and more time understanding.</p>
+      <div class="cta-bar"><span>Learn Better. Remember Longer.</span><a id="startBtn" class="pill pill-white" href="#workspace">Start Studying</a></div>
+    </div>
+  </div>
+  <a class="scroll-hint" href="#how" aria-label="Scroll down">Scroll</a>
+</section>
+
+<section id="how" class="band"><h2>How it works</h2>
+  <ol class="steps"><li><b>Paste your notes</b><span>Or type a topic.</span></li><li><b>Choose a style</b><span>Easy explanations or exam focus.</span></li><li><b>Study</b><span>Read, quiz yourself, flip flashcards.</span></li></ol></section>
+<section id="features" class="band alt"><h2>Features</h2>
+  <ul class="feat"><li>Structured summaries with read-aloud</li><li>Five-question quizzes with scoring</li><li>3D flip flashcards with progress</li><li>Saved history and quiz score chart</li></ul></section>
+
+<section id="workspace" class="workspace">
+  <h2>Study workspace</h2>
+  <div class="ws-grid">
+    <form id="notesForm" class="panel" novalidate>
+      <label for="topic">Topic / title</label><input id="topic" maxlength="120" placeholder="e.g. Photosynthesis">
+      <label for="notes">Notes</label><textarea id="notes" rows="9" placeholder="Paste class notes or write a topic…"></textarea>
+      <div class="counter"><span id="counter">0 / 8000</span><span id="counterWarn" role="status"></span></div>
+      <div class="row3">
+        <div><label for="subject">Subject</label><select id="subject"><option>General</option><option>Computer Science</option><option>Mathematics</option><option>Physics</option><option>Chemistry</option><option>Biology</option><option>History</option><option>Languages</option></select></div>
+        <div><label for="difficulty">Difficulty</label><select id="difficulty"><option>Easy</option><option selected>Medium</option><option>Hard</option></select></div>
+        <div><label for="style">Response style</label><select id="style"><option value="eli10">Explain Like I’m 10</option><option value="exam" selected>Exam-Focused</option><option value="detailed">Detailed Explanation</option></select></div>
+      </div>
+      <button id="generateBtn" class="pill pill-dark" type="submit">Generate Study Material</button>
+      <p id="status" class="status" role="alert"></p>
+    </form>
+    <aside class="panel">
+      <h3>Settings</h3>
+      <label for="apiKey">Gemini API key</label>
+      <input id="apiKey" type="password" autocomplete="off" placeholder="Paste your own key">
+      <div class="row"><button id="saveKey" type="button" class="pill pill-dark">Save key</button><button id="clearKey" type="button" class="pill pill-light">Remove</button></div>
+      <p id="keyStatus" class="keystatus"></p>
+      <h3>Quiz progress</h3><div id="chart" class="chart"></div>
+    </aside>
+  </div>
+
+  <div id="loader" class="loader" hidden><span></span><span></span><span></span> Generating…</div>
+  <div id="results" class="panel results" hidden>
+    <div class="tabs" role="tablist">
+      <button role="tab" class="tab active" data-tab="summary" aria-selected="true">Summary</button>
+      <button role="tab" class="tab" data-tab="quiz" aria-selected="false">Quiz</button>
+      <button role="tab" class="tab" data-tab="cards" aria-selected="false">Flashcards</button>
+    </div>
+    <div id="tab-summary" class="tabpanel">
+      <div class="row"><button id="copyBtn" class="pill pill-light">Copy Summary</button><button id="dlBtn" class="pill pill-light">Download .txt</button><button id="readBtn" class="pill pill-dark">Read Aloud</button><button id="stopBtn" class="pill pill-light">Stop Reading</button></div>
+      <article id="summaryBody"></article>
+    </div>
+    <div id="tab-quiz" class="tabpanel" hidden>
+      <div class="bar"><i id="qBar"></i></div><p id="qProgress"></p>
+      <h3 id="qText"></h3><div id="qOptions" class="options"></div><p id="qExplain" class="explain"></p>
+      <div class="row"><button id="qPrev" class="pill pill-light">Previous</button><button id="qNext" class="pill pill-dark">Next</button><button id="qRestart" class="pill pill-light">Restart Quiz</button></div>
+      <div id="qResult" hidden></div>
+    </div>
+    <div id="tab-cards" class="tabpanel" hidden>
+      <p id="cProgress"></p>
+      <button id="card" class="card" aria-label="Flip flashcard"><span class="face front" id="cFront"></span><span class="face back" id="cBack"></span></button>
+      <div class="row"><button id="cPrev" class="pill pill-light">Previous</button><button id="cNotKnown" class="pill pill-light">Not Known</button><button id="cKnown" class="pill pill-dark">Known</button><button id="cNext" class="pill pill-light">Next</button></div>
+    </div>
+  </div>
+</section>
+
+<section id="history" class="band alt"><h2>History</h2>
+  <div class="row"><input id="histSearch" type="search" aria-label="Search history" placeholder="Search topics">
+    <select id="histFilter" aria-label="Filter by style"><option value="">All styles</option><option value="eli10">Explain Like I’m 10</option><option value="exam">Exam-Focused</option><option value="detailed">Detailed</option></select>
+    <button id="clearHist" class="pill pill-light">Clear History</button></div>
+  <ul id="histList" class="hist"></ul></section>
+</main>
+<footer class="foot">StillMind AI — a Web Technology project. Your API key stays in this browser.</footer>
+<script src="script.js"></script>
+</body>
+</html>
